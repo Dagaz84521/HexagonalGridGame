@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HexGridCore - QRS Distance Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <section class="stage">
+      <canvas id="board" aria-label="QRS distance demo"></canvas>
+      <div class="overlay">
+        <span id="hoverBadge">Hover: -</span>
+        <span id="distanceBadge">Distance: -</span>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <header>
+        <h1>QRS 坐标与距离计算</h1>
+        <p>在六边形网格中，Axial 坐标只保存 <code>Q</code> 和 <code>R</code>，第三个 Cube 坐标由 <code>S = -Q - R</code> 推出。</p>
+      </header>
+
+      <section class="card">
+        <h2>操作</h2>
+        <div class="button-grid">
+          <button id="setAButton" class="active">设置 A</button>
+          <button id="setBButton">设置 B</button>
+          <button id="resetButton" class="span-2">重置</button>
+        </div>
+        <p class="hint">点击棋盘上的格子设置 A 或 B。距离表示从 A 走到 B 至少需要多少步。</p>
+      </section>
+
+      <section class="card">
+        <h2>坐标</h2>
+        <pre id="coordReadout" class="readout"></pre>
+      </section>
+
+      <section class="card">
+        <h2>距离公式</h2>
+        <pre id="formulaReadout" class="readout tall"></pre>
+      </section>
+
+      <section class="card">
+        <h2>为什么是这个距离</h2>
+        <pre id="whyReadout" class="readout tall"></pre>
+      </section>
+
+      <section class="card">
+        <h2>伪代码</h2>
+        <ol class="pseudocode">
+          <li><span>ToCube(hex):</span></li>
+          <li data-indent="1"><span>q = hex.Q</span></li>
+          <li data-indent="1"><span>r = hex.R</span></li>
+          <li data-indent="1"><span>s = -q - r</span></li>
+          <li><span>Distance(a, b):</span></li>
+          <li data-indent="1"><span>dQ = a.Q - b.Q</span></li>
+          <li data-indent="1"><span>dR = a.R - b.R</span></li>
+          <li data-indent="1"><span>dS = a.S - b.S</span></li>
+          <li data-indent="1"><span>return max(abs(dQ), abs(dR), abs(dS))</span></li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>图例</h2>
+        <div class="legend">
+          <span><i class="swatch a"></i>A 起点</span>
+          <span><i class="swatch b"></i>B 终点</span>
+          <span><i class="swatch range"></i>最短路径</span>
+          <span><i class="swatch hover"></i>悬停</span>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

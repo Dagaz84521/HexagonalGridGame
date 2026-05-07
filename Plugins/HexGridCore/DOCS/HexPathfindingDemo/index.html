@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HexGridCore - Grid & Pathfinding Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <section class="stage">
+      <canvas id="board" aria-label="Hex grid and pathfinding demo"></canvas>
+      <header class="title-panel">
+        <h1>六边形网格与 A* 寻路</h1>
+        <p>轴向坐标、邻居、距离，以及基于六边形格子的 A* 路径搜索。</p>
+      </header>
+      <div class="overlay">
+        <span id="hoverBadge">Hover: -</span>
+        <span id="pathBadge">Path: -</span>
+      </div>
+
+      <section class="float-panel controls-panel">
+        <h2>操作</h2>
+        <div class="button-grid">
+          <button id="runButton" class="primary span-2">播放 A*</button>
+          <button id="stepButton">单步代码</button>
+          <button id="cellStepButton">单格搜索</button>
+          <button id="resetSearchButton">重置搜索</button>
+          <button id="resetBoardButton">重置棋盘</button>
+        </div>
+        <label class="field">
+          <span>点击模式</span>
+          <select id="modeSelect">
+            <option value="goal">设置终点</option>
+            <option value="start">设置起点</option>
+            <option value="block">切换阻挡格</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="float-panel code-panel">
+        <h2>伪代码</h2>
+        <ol id="pseudocode" class="pseudocode" aria-label="A star pseudocode">
+          <li data-line="1" data-indent="0"><span>FindPath(start, goal)</span></li>
+          <li data-line="2" data-indent="1"><span>open ← { start }, closed ← ∅</span></li>
+          <li data-line="3" data-indent="1"><span>while open is not empty</span></li>
+          <li data-line="4" data-indent="2"><span>current ← node in open with lowest F</span></li>
+          <li data-line="5" data-indent="2"><span>if current == goal: return ReconstructPath</span></li>
+          <li data-line="6" data-indent="2"><span>add current to closed</span></li>
+          <li data-line="7" data-indent="2"><span>for each neighbor in GetAllNeighbours(current)</span></li>
+          <li data-line="8" data-indent="3"><span>if neighbor invalid, blocked, or closed: continue</span></li>
+          <li data-line="9" data-indent="3"><span>tentativeG ← G[current] + moveCost</span></li>
+          <li data-line="10" data-indent="3"><span>if tentativeG improves neighbor</span></li>
+          <li data-line="11" data-indent="4"><span>cameFrom[neighbor] ← current</span></li>
+          <li data-line="12" data-indent="4"><span>F ← G + HexDistance(neighbor, goal); add/update open</span></li>
+          <li data-line="13" data-indent="1"><span>return empty path</span></li>
+        </ol>
+      </section>
+
+      <section class="float-panel coord-panel">
+        <h2>坐标与距离</h2>
+        <pre id="coordReadout" class="readout"></pre>
+      </section>
+
+      <section class="float-panel astar-panel">
+        <h2>A* 状态</h2>
+        <pre id="astarReadout" class="readout tall"></pre>
+      </section>
+
+      <section class="float-panel legend-panel">
+        <h2>图例</h2>
+        <div class="legend">
+          <span><i class="swatch start"></i>起点</span>
+          <span><i class="swatch goal"></i>终点</span>
+          <span><i class="swatch path"></i>最终路径</span>
+          <span><i class="swatch open"></i>Open Set</span>
+          <span><i class="swatch closed"></i>Closed Set</span>
+          <span><i class="swatch block"></i>阻挡格</span>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="hex-grid.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

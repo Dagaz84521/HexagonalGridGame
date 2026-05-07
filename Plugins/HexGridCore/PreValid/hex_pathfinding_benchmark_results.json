@@ -1,0 +1,1396 @@
+{
+  "config": {
+    "seed": 20260422,
+    "case_count": 40,
+    "width": 300,
+    "height": 300,
+    "walkable_probability": 0.9,
+    "min_height": 0,
+    "max_height": 4,
+    "use_height_rule": true,
+    "max_generation_attempts": 100,
+    "max_step_height_diff": 2
+  },
+  "summary": {
+    "case_count": 40,
+    "bfs": {
+      "average_elapsed_ms": 368.8948299999538,
+      "average_expanded_nodes": 42299.45,
+      "average_discovered_nodes": 42581.975,
+      "path_found_count": 40
+    },
+    "a_star": {
+      "average_elapsed_ms": 34.46490999986054,
+      "average_expanded_nodes": 3501.8,
+      "average_discovered_nodes": 3946.075,
+      "path_found_count": 40
+    },
+    "comparison": {
+      "average_time_speedup_ratio_bfs_over_astar": 10.703490303658025,
+      "average_expanded_ratio_bfs_over_astar": 12.079344908332857,
+      "same_path_length_count": 40
+    }
+  },
+  "cases": [
+    {
+      "case_index": 0,
+      "width": 300,
+      "height": 300,
+      "start": [
+        170,
+        27
+      ],
+      "end": [
+        207,
+        95
+      ],
+      "walkable_ratio": 0.8979333333333334,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 107,
+        "expanded_nodes": 18249,
+        "discovered_nodes": 18539,
+        "frontier_pushes": 18539,
+        "elapsed_ms": 160.50089999771444
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 107,
+        "expanded_nodes": 1319,
+        "discovered_nodes": 1610,
+        "frontier_pushes": 1750,
+        "elapsed_ms": 12.78910000110045
+      }
+    },
+    {
+      "case_index": 1,
+      "width": 300,
+      "height": 300,
+      "start": [
+        7,
+        109
+      ],
+      "end": [
+        275,
+        261
+      ],
+      "walkable_ratio": 0.9002333333333333,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 421,
+        "expanded_nodes": 78684,
+        "discovered_nodes": 78735,
+        "frontier_pushes": 78735,
+        "elapsed_ms": 699.8175999979139
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 421,
+        "expanded_nodes": 7394,
+        "discovered_nodes": 9576,
+        "frontier_pushes": 9576,
+        "elapsed_ms": 85.87160000024596
+      }
+    },
+    {
+      "case_index": 2,
+      "width": 300,
+      "height": 300,
+      "start": [
+        36,
+        175
+      ],
+      "end": [
+        24,
+        79
+      ],
+      "walkable_ratio": 0.8984666666666666,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 122,
+        "expanded_nodes": 24381,
+        "discovered_nodes": 24747,
+        "frontier_pushes": 24747,
+        "elapsed_ms": 214.24340000157827
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 122,
+        "expanded_nodes": 2293,
+        "discovered_nodes": 2529,
+        "frontier_pushes": 2960,
+        "elapsed_ms": 25.46499999880325
+      }
+    },
+    {
+      "case_index": 3,
+      "width": 300,
+      "height": 300,
+      "start": [
+        228,
+        2
+      ],
+      "end": [
+        243,
+        150
+      ],
+      "walkable_ratio": 0.9009777777777778,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 176,
+        "expanded_nodes": 34438,
+        "discovered_nodes": 34797,
+        "frontier_pushes": 34797,
+        "elapsed_ms": 284.50510000038776
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 176,
+        "expanded_nodes": 3546,
+        "discovered_nodes": 3813,
+        "frontier_pushes": 4554,
+        "elapsed_ms": 34.51110000241897
+      }
+    },
+    {
+      "case_index": 4,
+      "width": 300,
+      "height": 300,
+      "start": [
+        104,
+        216
+      ],
+      "end": [
+        298,
+        113
+      ],
+      "walkable_ratio": 0.9002777777777777,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 197,
+        "expanded_nodes": 63350,
+        "discovered_nodes": 63824,
+        "frontier_pushes": 63824,
+        "elapsed_ms": 565.8175000025949
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 197,
+        "expanded_nodes": 4149,
+        "discovered_nodes": 4784,
+        "frontier_pushes": 4982,
+        "elapsed_ms": 46.18599999957951
+      }
+    },
+    {
+      "case_index": 5,
+      "width": 300,
+      "height": 300,
+      "start": [
+        27,
+        179
+      ],
+      "end": [
+        234,
+        30
+      ],
+      "walkable_ratio": 0.9012111111111111,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 211,
+        "expanded_nodes": 55592,
+        "discovered_nodes": 55867,
+        "frontier_pushes": 55867,
+        "elapsed_ms": 502.33659999867086
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 211,
+        "expanded_nodes": 4471,
+        "discovered_nodes": 5020,
+        "frontier_pushes": 5375,
+        "elapsed_ms": 43.244799999229144
+      }
+    },
+    {
+      "case_index": 6,
+      "width": 300,
+      "height": 300,
+      "start": [
+        50,
+        7
+      ],
+      "end": [
+        1,
+        156
+      ],
+      "walkable_ratio": 0.8981,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 152,
+        "expanded_nodes": 17143,
+        "discovered_nodes": 17323,
+        "frontier_pushes": 17323,
+        "elapsed_ms": 151.75100000124075
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 152,
+        "expanded_nodes": 1964,
+        "discovered_nodes": 2218,
+        "frontier_pushes": 2355,
+        "elapsed_ms": 16.70439999725204
+      }
+    },
+    {
+      "case_index": 7,
+      "width": 300,
+      "height": 300,
+      "start": [
+        96,
+        278
+      ],
+      "end": [
+        185,
+        227
+      ],
+      "walkable_ratio": 0.8998777777777778,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 94,
+        "expanded_nodes": 13258,
+        "discovered_nodes": 13520,
+        "frontier_pushes": 13520,
+        "elapsed_ms": 104.94430000107968
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 94,
+        "expanded_nodes": 1163,
+        "discovered_nodes": 1365,
+        "frontier_pushes": 1442,
+        "elapsed_ms": 10.40149999971618
+      }
+    },
+    {
+      "case_index": 8,
+      "width": 300,
+      "height": 300,
+      "start": [
+        209,
+        128
+      ],
+      "end": [
+        285,
+        125
+      ],
+      "walkable_ratio": 0.9004777777777778,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 84,
+        "expanded_nodes": 16917,
+        "discovered_nodes": 17327,
+        "frontier_pushes": 17327,
+        "elapsed_ms": 142.40929999868968
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 84,
+        "expanded_nodes": 874,
+        "discovered_nodes": 1034,
+        "frontier_pushes": 1201,
+        "elapsed_ms": 7.4254999999538995
+      }
+    },
+    {
+      "case_index": 9,
+      "width": 300,
+      "height": 300,
+      "start": [
+        110,
+        18
+      ],
+      "end": [
+        281,
+        34
+      ],
+      "walkable_ratio": 0.8994444444444445,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 203,
+        "expanded_nodes": 41346,
+        "discovered_nodes": 41639,
+        "frontier_pushes": 41639,
+        "elapsed_ms": 354.7580999984348
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 203,
+        "expanded_nodes": 5271,
+        "discovered_nodes": 5656,
+        "frontier_pushes": 6823,
+        "elapsed_ms": 53.426099999342114
+      }
+    },
+    {
+      "case_index": 10,
+      "width": 300,
+      "height": 300,
+      "start": [
+        106,
+        91
+      ],
+      "end": [
+        277,
+        223
+      ],
+      "walkable_ratio": 0.9014666666666666,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 304,
+        "expanded_nodes": 76103,
+        "discovered_nodes": 76196,
+        "frontier_pushes": 76196,
+        "elapsed_ms": 631.3936999977159
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 304,
+        "expanded_nodes": 4584,
+        "discovered_nodes": 5868,
+        "frontier_pushes": 5868,
+        "elapsed_ms": 60.15859999752138
+      }
+    },
+    {
+      "case_index": 11,
+      "width": 300,
+      "height": 300,
+      "start": [
+        231,
+        100
+      ],
+      "end": [
+        175,
+        166
+      ],
+      "walkable_ratio": 0.9013111111111111,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 73,
+        "expanded_nodes": 12781,
+        "discovered_nodes": 13118,
+        "frontier_pushes": 13118,
+        "elapsed_ms": 112.69279999760329
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 73,
+        "expanded_nodes": 946,
+        "discovered_nodes": 1068,
+        "frontier_pushes": 1232,
+        "elapsed_ms": 7.980599999427795
+      }
+    },
+    {
+      "case_index": 12,
+      "width": 300,
+      "height": 300,
+      "start": [
+        200,
+        119
+      ],
+      "end": [
+        84,
+        156
+      ],
+      "walkable_ratio": 0.8999222222222222,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 120,
+        "expanded_nodes": 33732,
+        "discovered_nodes": 34189,
+        "frontier_pushes": 34189,
+        "elapsed_ms": 287.0499999989988
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 120,
+        "expanded_nodes": 2108,
+        "discovered_nodes": 2398,
+        "frontier_pushes": 2661,
+        "elapsed_ms": 17.693000001600012
+      }
+    },
+    {
+      "case_index": 13,
+      "width": 300,
+      "height": 300,
+      "start": [
+        170,
+        256
+      ],
+      "end": [
+        163,
+        6
+      ],
+      "walkable_ratio": 0.8989333333333334,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 284,
+        "expanded_nodes": 70437,
+        "discovered_nodes": 70588,
+        "frontier_pushes": 70588,
+        "elapsed_ms": 618.5854000032123
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 284,
+        "expanded_nodes": 9736,
+        "discovered_nodes": 10270,
+        "frontier_pushes": 12441,
+        "elapsed_ms": 90.89510000194423
+      }
+    },
+    {
+      "case_index": 14,
+      "width": 300,
+      "height": 300,
+      "start": [
+        150,
+        282
+      ],
+      "end": [
+        270,
+        45
+      ],
+      "walkable_ratio": 0.9007555555555555,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 240,
+        "expanded_nodes": 56886,
+        "discovered_nodes": 57151,
+        "frontier_pushes": 57151,
+        "elapsed_ms": 515.6996000005165
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 240,
+        "expanded_nodes": 8789,
+        "discovered_nodes": 9572,
+        "frontier_pushes": 10225,
+        "elapsed_ms": 89.0161999996053
+      }
+    },
+    {
+      "case_index": 15,
+      "width": 300,
+      "height": 300,
+      "start": [
+        215,
+        125
+      ],
+      "end": [
+        231,
+        31
+      ],
+      "walkable_ratio": 0.9028111111111111,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 103,
+        "expanded_nodes": 24122,
+        "discovered_nodes": 24521,
+        "frontier_pushes": 24521,
+        "elapsed_ms": 196.48420000157785
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 103,
+        "expanded_nodes": 1349,
+        "discovered_nodes": 1519,
+        "frontier_pushes": 1749,
+        "elapsed_ms": 11.917100000573555
+      }
+    },
+    {
+      "case_index": 16,
+      "width": 300,
+      "height": 300,
+      "start": [
+        148,
+        81
+      ],
+      "end": [
+        230,
+        195
+      ],
+      "walkable_ratio": 0.8990666666666667,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 199,
+        "expanded_nodes": 62056,
+        "discovered_nodes": 62379,
+        "frontier_pushes": 62379,
+        "elapsed_ms": 542.6745000004303
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 199,
+        "expanded_nodes": 2048,
+        "discovered_nodes": 2699,
+        "frontier_pushes": 2699,
+        "elapsed_ms": 18.409200001769932
+      }
+    },
+    {
+      "case_index": 17,
+      "width": 300,
+      "height": 300,
+      "start": [
+        77,
+        122
+      ],
+      "end": [
+        253,
+        54
+      ],
+      "walkable_ratio": 0.8989111111111111,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 179,
+        "expanded_nodes": 51871,
+        "discovered_nodes": 52211,
+        "frontier_pushes": 52211,
+        "elapsed_ms": 449.39330000124755
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 179,
+        "expanded_nodes": 2463,
+        "discovered_nodes": 2840,
+        "frontier_pushes": 2941,
+        "elapsed_ms": 24.215199999161996
+      }
+    },
+    {
+      "case_index": 18,
+      "width": 300,
+      "height": 300,
+      "start": [
+        66,
+        59
+      ],
+      "end": [
+        96,
+        140
+      ],
+      "walkable_ratio": 0.9002777777777777,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 115,
+        "expanded_nodes": 21336,
+        "discovered_nodes": 21549,
+        "frontier_pushes": 21549,
+        "elapsed_ms": 188.68310000107158
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 115,
+        "expanded_nodes": 1680,
+        "discovered_nodes": 1897,
+        "frontier_pushes": 2129,
+        "elapsed_ms": 14.426900001126342
+      }
+    },
+    {
+      "case_index": 19,
+      "width": 300,
+      "height": 300,
+      "start": [
+        289,
+        40
+      ],
+      "end": [
+        233,
+        30
+      ],
+      "walkable_ratio": 0.9016666666666666,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 71,
+        "expanded_nodes": 6689,
+        "discovered_nodes": 6852,
+        "frontier_pushes": 6852,
+        "elapsed_ms": 74.91370000207098
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 71,
+        "expanded_nodes": 680,
+        "discovered_nodes": 808,
+        "frontier_pushes": 921,
+        "elapsed_ms": 6.580600002052961
+      }
+    },
+    {
+      "case_index": 20,
+      "width": 300,
+      "height": 300,
+      "start": [
+        87,
+        121
+      ],
+      "end": [
+        160,
+        237
+      ],
+      "walkable_ratio": 0.8996555555555555,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 190,
+        "expanded_nodes": 57941,
+        "discovered_nodes": 58243,
+        "frontier_pushes": 58243,
+        "elapsed_ms": 505.091099999845
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 190,
+        "expanded_nodes": 1551,
+        "discovered_nodes": 2031,
+        "frontier_pushes": 2031,
+        "elapsed_ms": 13.870299997506663
+      }
+    },
+    {
+      "case_index": 21,
+      "width": 300,
+      "height": 300,
+      "start": [
+        118,
+        86
+      ],
+      "end": [
+        78,
+        163
+      ],
+      "walkable_ratio": 0.9039333333333334,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 79,
+        "expanded_nodes": 15416,
+        "discovered_nodes": 15789,
+        "frontier_pushes": 15789,
+        "elapsed_ms": 130.35609999860753
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 79,
+        "expanded_nodes": 1006,
+        "discovered_nodes": 1177,
+        "frontier_pushes": 1222,
+        "elapsed_ms": 8.556500000850065
+      }
+    },
+    {
+      "case_index": 22,
+      "width": 300,
+      "height": 300,
+      "start": [
+        135,
+        57
+      ],
+      "end": [
+        10,
+        164
+      ],
+      "walkable_ratio": 0.9000666666666667,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 134,
+        "expanded_nodes": 33665,
+        "discovered_nodes": 34105,
+        "frontier_pushes": 34105,
+        "elapsed_ms": 282.00809999907506
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 134,
+        "expanded_nodes": 1976,
+        "discovered_nodes": 2201,
+        "frontier_pushes": 2529,
+        "elapsed_ms": 17.56260000183829
+      }
+    },
+    {
+      "case_index": 23,
+      "width": 300,
+      "height": 300,
+      "start": [
+        31,
+        186
+      ],
+      "end": [
+        114,
+        259
+      ],
+      "walkable_ratio": 0.9011666666666667,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 157,
+        "expanded_nodes": 36849,
+        "discovered_nodes": 37250,
+        "frontier_pushes": 37250,
+        "elapsed_ms": 317.14389999979176
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 157,
+        "expanded_nodes": 2685,
+        "discovered_nodes": 3376,
+        "frontier_pushes": 3376,
+        "elapsed_ms": 26.935099998809164
+      }
+    },
+    {
+      "case_index": 24,
+      "width": 300,
+      "height": 300,
+      "start": [
+        172,
+        46
+      ],
+      "end": [
+        147,
+        96
+      ],
+      "walkable_ratio": 0.8997888888888889,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 51,
+        "expanded_nodes": 5983,
+        "discovered_nodes": 6212,
+        "frontier_pushes": 6212,
+        "elapsed_ms": 44.65459999846644
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 51,
+        "expanded_nodes": 345,
+        "discovered_nodes": 480,
+        "frontier_pushes": 480,
+        "elapsed_ms": 3.050499999517342
+      }
+    },
+    {
+      "case_index": 25,
+      "width": 300,
+      "height": 300,
+      "start": [
+        115,
+        72
+      ],
+      "end": [
+        65,
+        280
+      ],
+      "walkable_ratio": 0.9007222222222222,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 215,
+        "expanded_nodes": 60095,
+        "discovered_nodes": 60368,
+        "frontier_pushes": 60368,
+        "elapsed_ms": 543.5566999985895
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 215,
+        "expanded_nodes": 5396,
+        "discovered_nodes": 5844,
+        "frontier_pushes": 6610,
+        "elapsed_ms": 54.00290000034147
+      }
+    },
+    {
+      "case_index": 26,
+      "width": 300,
+      "height": 300,
+      "start": [
+        14,
+        133
+      ],
+      "end": [
+        209,
+        125
+      ],
+      "walkable_ratio": 0.8985444444444445,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 216,
+        "expanded_nodes": 47627,
+        "discovered_nodes": 47880,
+        "frontier_pushes": 47880,
+        "elapsed_ms": 435.5099999993399
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 216,
+        "expanded_nodes": 5947,
+        "discovered_nodes": 6326,
+        "frontier_pushes": 7562,
+        "elapsed_ms": 56.51360000047134
+      }
+    },
+    {
+      "case_index": 27,
+      "width": 300,
+      "height": 300,
+      "start": [
+        242,
+        85
+      ],
+      "end": [
+        46,
+        10
+      ],
+      "walkable_ratio": 0.9001777777777777,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 275,
+        "expanded_nodes": 78724,
+        "discovered_nodes": 78803,
+        "frontier_pushes": 78803,
+        "elapsed_ms": 676.0968000016874
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 275,
+        "expanded_nodes": 8104,
+        "discovered_nodes": 8740,
+        "frontier_pushes": 9560,
+        "elapsed_ms": 76.04299999729847
+      }
+    },
+    {
+      "case_index": 28,
+      "width": 300,
+      "height": 300,
+      "start": [
+        186,
+        298
+      ],
+      "end": [
+        231,
+        184
+      ],
+      "walkable_ratio": 0.8983777777777778,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 119,
+        "expanded_nodes": 17092,
+        "discovered_nodes": 17344,
+        "frontier_pushes": 17344,
+        "elapsed_ms": 144.7373000009975
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 119,
+        "expanded_nodes": 1918,
+        "discovered_nodes": 2175,
+        "frontier_pushes": 2330,
+        "elapsed_ms": 18.776599998091115
+      }
+    },
+    {
+      "case_index": 29,
+      "width": 300,
+      "height": 300,
+      "start": [
+        241,
+        7
+      ],
+      "end": [
+        142,
+        272
+      ],
+      "walkable_ratio": 0.9021888888888889,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 266,
+        "expanded_nodes": 69409,
+        "discovered_nodes": 69682,
+        "frontier_pushes": 69682,
+        "elapsed_ms": 618.9061000004585
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 266,
+        "expanded_nodes": 3653,
+        "discovered_nodes": 4618,
+        "frontier_pushes": 4618,
+        "elapsed_ms": 37.181499999860534
+      }
+    },
+    {
+      "case_index": 30,
+      "width": 300,
+      "height": 300,
+      "start": [
+        111,
+        45
+      ],
+      "end": [
+        260,
+        11
+      ],
+      "walkable_ratio": 0.8998666666666667,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 156,
+        "expanded_nodes": 35273,
+        "discovered_nodes": 35543,
+        "frontier_pushes": 35543,
+        "elapsed_ms": 310.6043000007048
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 156,
+        "expanded_nodes": 3197,
+        "discovered_nodes": 3497,
+        "frontier_pushes": 3995,
+        "elapsed_ms": 39.64099999939208
+      }
+    },
+    {
+      "case_index": 31,
+      "width": 300,
+      "height": 300,
+      "start": [
+        143,
+        49
+      ],
+      "end": [
+        1,
+        2
+      ],
+      "walkable_ratio": 0.8994111111111112,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 195,
+        "expanded_nodes": 52451,
+        "discovered_nodes": 52699,
+        "frontier_pushes": 52699,
+        "elapsed_ms": 446.5589999999793
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 195,
+        "expanded_nodes": 3891,
+        "discovered_nodes": 4146,
+        "frontier_pushes": 4566,
+        "elapsed_ms": 34.1493999985687
+      }
+    },
+    {
+      "case_index": 32,
+      "width": 300,
+      "height": 300,
+      "start": [
+        289,
+        24
+      ],
+      "end": [
+        1,
+        94
+      ],
+      "walkable_ratio": 0.8982222222222223,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 294,
+        "expanded_nodes": 77408,
+        "discovered_nodes": 77612,
+        "frontier_pushes": 77612,
+        "elapsed_ms": 688.1364000000758
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 294,
+        "expanded_nodes": 8283,
+        "discovered_nodes": 8780,
+        "frontier_pushes": 9899,
+        "elapsed_ms": 73.65629999912926
+      }
+    },
+    {
+      "case_index": 33,
+      "width": 300,
+      "height": 300,
+      "start": [
+        152,
+        173
+      ],
+      "end": [
+        295,
+        231
+      ],
+      "walkable_ratio": 0.9000222222222222,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 204,
+        "expanded_nodes": 71027,
+        "discovered_nodes": 71199,
+        "frontier_pushes": 71199,
+        "elapsed_ms": 628.0560999985028
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 204,
+        "expanded_nodes": 3976,
+        "discovered_nodes": 4422,
+        "frontier_pushes": 4702,
+        "elapsed_ms": 36.47620000265306
+      }
+    },
+    {
+      "case_index": 34,
+      "width": 300,
+      "height": 300,
+      "start": [
+        285,
+        116
+      ],
+      "end": [
+        83,
+        297
+      ],
+      "walkable_ratio": 0.9010222222222222,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 220,
+        "expanded_nodes": 55240,
+        "discovered_nodes": 55506,
+        "frontier_pushes": 55506,
+        "elapsed_ms": 477.34549999950104
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 220,
+        "expanded_nodes": 6956,
+        "discovered_nodes": 7344,
+        "frontier_pushes": 8737,
+        "elapsed_ms": 63.00090000149794
+      }
+    },
+    {
+      "case_index": 35,
+      "width": 300,
+      "height": 300,
+      "start": [
+        170,
+        207
+      ],
+      "end": [
+        2,
+        236
+      ],
+      "walkable_ratio": 0.9000666666666667,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 178,
+        "expanded_nodes": 56591,
+        "discovered_nodes": 56953,
+        "frontier_pushes": 56953,
+        "elapsed_ms": 484.28880000210484
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 178,
+        "expanded_nodes": 4051,
+        "discovered_nodes": 4383,
+        "frontier_pushes": 5046,
+        "elapsed_ms": 37.78009999950882
+      }
+    },
+    {
+      "case_index": 36,
+      "width": 300,
+      "height": 300,
+      "start": [
+        75,
+        123
+      ],
+      "end": [
+        69,
+        259
+      ],
+      "walkable_ratio": 0.9003444444444444,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 152,
+        "expanded_nodes": 42766,
+        "discovered_nodes": 43101,
+        "frontier_pushes": 43101,
+        "elapsed_ms": 357.19419999804813
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 152,
+        "expanded_nodes": 3230,
+        "discovered_nodes": 3507,
+        "frontier_pushes": 4226,
+        "elapsed_ms": 28.419800000847317
+      }
+    },
+    {
+      "case_index": 37,
+      "width": 300,
+      "height": 300,
+      "start": [
+        280,
+        76
+      ],
+      "end": [
+        143,
+        200
+      ],
+      "walkable_ratio": 0.9008444444444444,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 147,
+        "expanded_nodes": 28724,
+        "discovered_nodes": 29057,
+        "frontier_pushes": 29057,
+        "elapsed_ms": 253.06690000070375
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 147,
+        "expanded_nodes": 2504,
+        "discovered_nodes": 2772,
+        "frontier_pushes": 3207,
+        "elapsed_ms": 24.685299998964183
+      }
+    },
+    {
+      "case_index": 38,
+      "width": 300,
+      "height": 300,
+      "start": [
+        63,
+        251
+      ],
+      "end": [
+        120,
+        291
+      ],
+      "walkable_ratio": 0.9001,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 99,
+        "expanded_nodes": 17416,
+        "discovered_nodes": 17670,
+        "frontier_pushes": 17670,
+        "elapsed_ms": 146.32890000211773
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 99,
+        "expanded_nodes": 1054,
+        "discovered_nodes": 1385,
+        "frontier_pushes": 1416,
+        "elapsed_ms": 10.738299999502487
+      }
+    },
+    {
+      "case_index": 39,
+      "width": 300,
+      "height": 300,
+      "start": [
+        128,
+        283
+      ],
+      "end": [
+        228,
+        70
+      ],
+      "walkable_ratio": 0.8998222222222222,
+      "bfs": {
+        "algorithm": "BFS",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 216,
+        "expanded_nodes": 52910,
+        "discovered_nodes": 53191,
+        "frontier_pushes": 53191,
+        "elapsed_ms": 467.49829999680514
+      },
+      "a_star": {
+        "algorithm": "A*",
+        "use_height_rule": true,
+        "found_path": true,
+        "path_length": 216,
+        "expanded_nodes": 3522,
+        "discovered_nodes": 4095,
+        "frontier_pushes": 4218,
+        "elapsed_ms": 40.2388999973482
+      }
+    }
+  ]
+}
