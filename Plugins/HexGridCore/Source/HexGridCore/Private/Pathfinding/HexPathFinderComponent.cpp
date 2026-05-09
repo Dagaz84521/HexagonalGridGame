@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "HexPathFinderComponent.h"
-#include "HexGridMap.h"
-#include "HexMathLibrary.h"
-#include "HexGridMap.h"
+#include "Pathfinding/HexPathFinderComponent.h"
+#include "Grid/HexGridMap.h"
+#include "Types/HexMathLibrary.h"
+#include "Grid/HexGridMap.h"
 
 
 

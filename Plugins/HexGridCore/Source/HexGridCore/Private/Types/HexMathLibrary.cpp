@@ -1,4 +1,4 @@
-#include "HexMathLibrary.h"
+#include "Types/HexMathLibrary.h"
 
 
 const FHexCoord UHexMathLibrary::DirectionOffsets[6] = {

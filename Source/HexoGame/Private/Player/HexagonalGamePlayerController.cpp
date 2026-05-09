@@ -3,11 +3,11 @@
 
 
 #include "Player/HexagonalGamePlayerController.h"
-#include "HexGridMap.h"
+#include "Grid/HexGridMap.h"
 #include "Player/CameraPawn.h"
-#include "HexGridGenerator.h"
-#include "HexPathFinderComponent.h"
-#include "HexUnitBase.h"
+#include "Grid/HexGridGenerator.h"
+#include "Pathfinding/HexPathFinderComponent.h"
+#include "Units/HexUnitBase.h"
 #include "Engine/Engine.h"
 #include "InputCoreTypes.h"
 #include "EnhancedInputSubsystems.h"

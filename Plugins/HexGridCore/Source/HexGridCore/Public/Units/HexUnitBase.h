@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HexCoord.h"
-#include "HexMathLibrary.h"
-#include "HexUnitTypes.h"
+#include "Types/HexCoord.h"
+#include "Types/HexMathLibrary.h"
+#include "Types/HexUnitTypes.h"
 #include "GameFramework/Actor.h"
 #include "HexUnitBase.generated.h"
 

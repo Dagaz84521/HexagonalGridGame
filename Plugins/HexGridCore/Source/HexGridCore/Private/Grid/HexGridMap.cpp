@@ -1,9 +1,9 @@
-#include "HexGridMap.h"
+#include "Grid/HexGridMap.h"
 
 #include "Components/DecalComponent.h"
 #include "Components/SceneComponent.h"
-#include "HexPathFinderComponent.h"
-#include "HexUnitBase.h"
+#include "Pathfinding/HexPathFinderComponent.h"
+#include "Units/HexUnitBase.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
 AHexGridMap::AHexGridMap()

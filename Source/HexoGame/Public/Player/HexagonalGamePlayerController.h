@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HexCoord.h"
+#include "Types/HexCoord.h"
 #include "GameFramework/PlayerController.h"
 #include "HexagonalGamePlayerController.generated.h"
 

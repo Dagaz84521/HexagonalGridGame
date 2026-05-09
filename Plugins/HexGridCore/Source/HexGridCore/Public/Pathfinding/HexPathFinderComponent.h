@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HexCoord.h"
+#include "Types/HexCoord.h"
 #include "Components/ActorComponent.h"
 #include "HexPathFinderComponent.generated.h"
 

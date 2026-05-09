@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "HexPlayerController.h"
-#include "HexGridMap.h"
-#include "HexGridGenerator.h"
-#include "HexPathFinderComponent.h"
-#include "HexUnitBase.h"
+#include "Player/HexPlayerController.h"
+#include "Grid/HexGridMap.h"
+#include "Grid/HexGridGenerator.h"
+#include "Pathfinding/HexPathFinderComponent.h"
+#include "Units/HexUnitBase.h"
 #include "Engine/Engine.h"
 #include "InputCoreTypes.h"
 #include "EnhancedInputSubsystems.h"

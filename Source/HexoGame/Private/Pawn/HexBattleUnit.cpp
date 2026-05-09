@@ -33,7 +33,7 @@ void AHexBattleUnit::BeginPlay()
 
 		if (AttributeSet)
 		{
-			AbilitySystemComponent->AddAttributeSetSubobject(AttributeSet);
+			AbilitySystemComponent->AddAttributeSetSubobject(AttributeSet.Get());
 		}
 
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);

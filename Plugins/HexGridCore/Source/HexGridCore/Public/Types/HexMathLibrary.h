@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "HexCoord.h" 
+#include "Types/HexCoord.h" 
 #include "HexMathLibrary.generated.h"
 
 // 定义六个方向的枚举，方便获取邻居

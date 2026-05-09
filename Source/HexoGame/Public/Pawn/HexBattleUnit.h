@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HexUnitBase.h"
+#include "Units/HexUnitBase.h"
 #include "AbilitySystemInterface.h"
 #include "HexBattleUnit.generated.h"
 

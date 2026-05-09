@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "HexCoord.h"
+#include "Types/HexCoord.h"
 #include "HexGridDataAsset.generated.h"
 
 /**

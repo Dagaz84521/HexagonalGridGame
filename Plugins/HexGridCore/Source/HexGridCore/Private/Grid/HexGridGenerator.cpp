@@ -1,5 +1,5 @@
-#include "HexGridGenerator.h"
-#include "HexMathLibrary.h"
+#include "Grid/HexGridGenerator.h"
+#include "Types/HexMathLibrary.h"
 #include "Components/BoxComponent.h"
 #include "Components/DecalComponent.h"
 #include "DrawDebugHelpers.h"
@@ -135,6 +135,32 @@ void AHexGridGenerator::ClearGrid()
     DecalsMap.Empty();
 }
 
+bool AHexGridGenerator::IsUnitPlacementBlocked(const FVector& GroundLocation, const FCollisionQueryParams& QueryParams) const
+{
+    if (!bCheckUnitPlacementCollision || UnitPlacementCheckRadius <= KINDA_SMALL_NUMBER)
+    {
+        return false;
+    }
+
+    UWorld* World = GetWorld();
+    if (!World)
+    {
+        return false;
+    }
+
+    // 在格子地面中心上方检测单位站位空间；如果球形范围碰到阻挡物，则单位站不下。
+    const FVector CheckLocation = GroundLocation + FVector(0.0f, 0.0f, UnitPlacementCheckHeight);
+    const FCollisionShape CollisionShape = FCollisionShape::MakeSphere(UnitPlacementCheckRadius);
+
+    return World->OverlapAnyTestByChannel(
+        CheckLocation,
+        FQuat::Identity,
+        UnitPlacementTraceChannel,
+        CollisionShape,
+        QueryParams
+    );
+}
+
 bool AHexGridGenerator::SetCellDecalColor(const FHexCoord& Coord, const FLinearColor& Color)
 {
     UDecalComponent** Decal = DecalsMap.Find(Coord);
@@ -256,60 +282,67 @@ void AHexGridGenerator::GenerateRuntimeGrid()
                 TraceChannel, QueryParams
             );
 
-            if (!bHitCenter) continue;
-
-            float CenterZ = CenterHit.Location.Z;
-            float HeightSum = CenterZ; // 用于后续计算平均高度
-            int32 SimilarPointsCount = 1; // 中心点本身算作第 1 个相似点
+            bool bTerrainPassable = bHitCenter;
+            float HeightSum = bHitCenter ? CenterHit.Location.Z : WorldCenterBase.Z; // 用于后续计算平均高度
+            int32 SimilarPointsCount = bHitCenter ? 1 : 0; // 中心点命中时才算作第 1 个相似点
 
             // --- 采样点 1-6: 六个顶点投票 ---
-            for (int32 i = 0; i < 6; ++i)
+            if (bHitCenter)
             {
-                // 计算顶点局部坐标（尖顶六边形：起点 30 度）
-                float AngleRad = FMath::DegreesToRadians(60.0f * i + 30.0f);
-                FVector CornerLocal = LocalCenter + FVector(HexSize * FMath::Cos(AngleRad), HexSize * FMath::Sin(AngleRad), 0.0f);
-                FVector CornerWorldBase = ActorTransform.TransformPositionNoScale(CornerLocal);
-
-                FHitResult CornerHit;
-                if (GetWorld()->LineTraceSingleByChannel(
-                    CornerHit, 
-                    CornerWorldBase + FVector(0, 0, TraceHeight), 
-                    CornerWorldBase - FVector(0, 0, TraceHeight), 
-                    TraceChannel, QueryParams))
+                for (int32 i = 0; i < 6; ++i)
                 {
-                    // 判断顶点与中心点的高度差
-                    float HeightDiff = FMath::Abs(CornerHit.Location.Z - CenterZ);
-                    if (HeightDiff <= HeightTolerance)
+                    // 计算顶点局部坐标（尖顶六边形：起点 30 度）
+                    float AngleRad = FMath::DegreesToRadians(60.0f * i + 30.0f);
+                    FVector CornerLocal = LocalCenter + FVector(HexSize * FMath::Cos(AngleRad), HexSize * FMath::Sin(AngleRad), 0.0f);
+                    FVector CornerWorldBase = ActorTransform.TransformPositionNoScale(CornerLocal);
+
+                    FHitResult CornerHit;
+                    if (GetWorld()->LineTraceSingleByChannel(
+                        CornerHit, 
+                        CornerWorldBase + FVector(0, 0, TraceHeight), 
+                        CornerWorldBase - FVector(0, 0, TraceHeight), 
+                        TraceChannel, QueryParams))
                     {
-                        SimilarPointsCount++;
-                        HeightSum += CornerHit.Location.Z;
+                        // 判断顶点与中心点的高度差
+                        float HeightDiff = FMath::Abs(CornerHit.Location.Z - CenterHit.Location.Z);
+                        if (HeightDiff <= HeightTolerance)
+                        {
+                            SimilarPointsCount++;
+                            HeightSum += CornerHit.Location.Z;
+                        }
                     }
                 }
             }
 
             // --- 判定规则 ---
-            // 只有当足够多的点（中心点 + 符合要求的顶点）高度一致时，才生成网格
+            // 只有当足够多的点（中心点 + 符合要求的顶点）高度一致时，才允许通行。
             // SimilarPointsCount 包含中心点，所以阈值应为 MinRequiredSimilarCorners + 1
-            if (SimilarPointsCount < (MinRequiredSimilarCorners + 1))
+            if (!bHitCenter || SimilarPointsCount < (MinRequiredSimilarCorners + 1))
             {
-                continue; 
+                bTerrainPassable = false;
             }
 
             // 计算该位置的地面坡度
-            float SlopeAngle = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(CenterHit.ImpactNormal, FVector::UpVector)));
-            if (SlopeAngle > MaxWalkableSlopeAngle)
+            if (bHitCenter)
             {
-                continue;
+                float SlopeAngle = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(CenterHit.ImpactNormal, FVector::UpVector)));
+                if (SlopeAngle > MaxWalkableSlopeAngle)
+                {
+                    bTerrainPassable = false;
+                }
             }
 
             // --- 格子数据存储 ---
             FHexCellData CellData;
             CellData.Coordinate = CurrentCoord;
-            CellData.bIsPassable = true;
             
-            // 使用相似点的平均高度，减少因中心点踩在缝隙里导致的贴花偏移
-            float AverageZ = HeightSum / (float)SimilarPointsCount;
-            CellData.WorldLocation = FVector(CenterHit.Location.X, CenterHit.Location.Y, AverageZ + GroundOffset);
+            // 地形不合格的候选格也会保存，只是标记为不可通行。
+            const float AverageZ = SimilarPointsCount > 0 ? HeightSum / static_cast<float>(SimilarPointsCount) : WorldCenterBase.Z;
+            CellData.WorldLocation = bHitCenter
+                ? FVector(CenterHit.Location.X, CenterHit.Location.Y, AverageZ + GroundOffset)
+                : WorldCenterBase + FVector(0.0f, 0.0f, GroundOffset);
+            const bool bPlacementBlocked = bTerrainPassable && IsUnitPlacementBlocked(CellData.WorldLocation, QueryParams);
+            CellData.bIsPassable = bTerrainPassable && !bPlacementBlocked;
             
             GridData.Add(CurrentCoord, CellData);
 
@@ -386,54 +419,58 @@ void AHexGridGenerator::GenerateGrid()
                 QueryParams
             );
 
-            if (!bHitCenter)
+            bool bTerrainPassable = bHitCenter;
+            float HeightSum = bHitCenter ? CenterHit.Location.Z : WorldCenterBase.Z;
+            int32 SimilarPointsCount = bHitCenter ? 1 : 0;
+
+            if (bHitCenter)
             {
-                continue;
-            }
-
-            const float CenterZ = CenterHit.Location.Z;
-            float HeightSum = CenterZ;
-            int32 SimilarPointsCount = 1;
-
-            for (int32 i = 0; i < 6; ++i)
-            {
-                const float AngleRad = FMath::DegreesToRadians(60.0f * i + 30.0f);
-                const FVector CornerLocal = LocalCenter + FVector(HexSize * FMath::Cos(AngleRad), HexSize * FMath::Sin(AngleRad), 0.0f);
-                const FVector CornerWorldBase = BoundsTransform.TransformPositionNoScale(CornerLocal);
-
-                FHitResult CornerHit;
-                if (GetWorld()->LineTraceSingleByChannel(
-                    CornerHit,
-                    CornerWorldBase + FVector(0.0f, 0.0f, TraceHeight),
-                    CornerWorldBase - FVector(0.0f, 0.0f, TraceHeight),
-                    TraceChannel,
-                    QueryParams))
+                for (int32 i = 0; i < 6; ++i)
                 {
-                    const float HeightDiff = FMath::Abs(CornerHit.Location.Z - CenterZ);
-                    if (HeightDiff <= HeightTolerance)
+                    const float AngleRad = FMath::DegreesToRadians(60.0f * i + 30.0f);
+                    const FVector CornerLocal = LocalCenter + FVector(HexSize * FMath::Cos(AngleRad), HexSize * FMath::Sin(AngleRad), 0.0f);
+                    const FVector CornerWorldBase = BoundsTransform.TransformPositionNoScale(CornerLocal);
+
+                    FHitResult CornerHit;
+                    if (GetWorld()->LineTraceSingleByChannel(
+                        CornerHit,
+                        CornerWorldBase + FVector(0.0f, 0.0f, TraceHeight),
+                        CornerWorldBase - FVector(0.0f, 0.0f, TraceHeight),
+                        TraceChannel,
+                        QueryParams))
                     {
-                        ++SimilarPointsCount;
-                        HeightSum += CornerHit.Location.Z;
+                        const float HeightDiff = FMath::Abs(CornerHit.Location.Z - CenterHit.Location.Z);
+                        if (HeightDiff <= HeightTolerance)
+                        {
+                            ++SimilarPointsCount;
+                            HeightSum += CornerHit.Location.Z;
+                        }
                     }
                 }
             }
 
-            if (SimilarPointsCount < (MinRequiredSimilarCorners + 1))
+            if (!bHitCenter || SimilarPointsCount < (MinRequiredSimilarCorners + 1))
             {
-                continue;
+                bTerrainPassable = false;
             }
 
-            const float SlopeAngle = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(CenterHit.ImpactNormal, FVector::UpVector)));
-            if (SlopeAngle > MaxWalkableSlopeAngle)
+            if (bHitCenter)
             {
-                continue;
+                const float SlopeAngle = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(CenterHit.ImpactNormal, FVector::UpVector)));
+                if (SlopeAngle > MaxWalkableSlopeAngle)
+                {
+                    bTerrainPassable = false;
+                }
             }
 
             FHexCellData CellData;
             CellData.Coordinate = CurrentCoord;
-            CellData.bIsPassable = true;
-            const float AverageZ = HeightSum / static_cast<float>(SimilarPointsCount);
-            CellData.WorldLocation = FVector(CenterHit.Location.X, CenterHit.Location.Y, AverageZ + GroundOffset);
+            const float AverageZ = SimilarPointsCount > 0 ? HeightSum / static_cast<float>(SimilarPointsCount) : WorldCenterBase.Z;
+            CellData.WorldLocation = bHitCenter
+                ? FVector(CenterHit.Location.X, CenterHit.Location.Y, AverageZ + GroundOffset)
+                : WorldCenterBase + FVector(0.0f, 0.0f, GroundOffset);
+            const bool bPlacementBlocked = bTerrainPassable && IsUnitPlacementBlocked(CellData.WorldLocation, QueryParams);
+            CellData.bIsPassable = bTerrainPassable && !bPlacementBlocked;
 
             GeneratedGridData.Add(CurrentCoord, CellData);
         }

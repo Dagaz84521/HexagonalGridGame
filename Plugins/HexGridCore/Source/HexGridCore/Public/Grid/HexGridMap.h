@@ -2,8 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "HexCoord.h"
-#include "HexGridDataAsset.h"
+#include "Types/HexCoord.h"
+#include "Grid/HexGridDataAsset.h"
 #include "HexGridMap.generated.h"
 
 class AHexUnitBase;
