@@ -9,6 +9,7 @@
 
 class UGameplayEffect;
 class UHexagonalAttributeSet;
+class UBattleUnitDefinition;
 /**
  * 
  */
@@ -31,4 +32,13 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
 	TSubclassOf<UGameplayEffect> InitialAttributeEffect;
+
+	void InitializeFromUnitDefinition(const UBattleUnitDefinition* UnitDefinition);
+	
+private:
+	void EnsureAbilitySystemInitialized();
+	void ApplyInitialGameplayEffect(TSubclassOf<UGameplayEffect> GameplayEffectClass);
+
+	UPROPERTY(Transient)
+	bool bAbilitySystemInitialized = false;
 };

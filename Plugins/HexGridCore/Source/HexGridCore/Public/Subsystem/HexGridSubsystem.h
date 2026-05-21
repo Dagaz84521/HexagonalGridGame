@@ -23,7 +23,7 @@ public:
 
 	// 从数据资产初始化 Subsystem 内部地图数据。当前用于新路径，不影响已有 AHexGridMap。
 	UFUNCTION(BlueprintCallable, Category = "Hex|DataAsset")
-	void LoadFromDataAsset(UHexGridDataAsset* InGridDataAsset);
+	bool LoadFromDataAsset(UHexGridDataAsset* InGridDataAsset);
 
 	// 迁移过渡入口：把现有 AHexGridMap 的数据复制进 Subsystem，方便逐步切换调用方。
 	UFUNCTION(BlueprintCallable, Category = "Hex|DataAsset")

@@ -44,7 +44,7 @@ void UHexGridSubsystem::Deinitialize()
 	Super::Deinitialize();
 }
 
-void UHexGridSubsystem::LoadFromDataAsset(UHexGridDataAsset* InGridDataAsset)
+bool UHexGridSubsystem::LoadFromDataAsset(UHexGridDataAsset* InGridDataAsset)
 {
 	ClearGrid();
 
@@ -52,7 +52,7 @@ void UHexGridSubsystem::LoadFromDataAsset(UHexGridDataAsset* InGridDataAsset)
 	if (!GridDataAsset)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("HexGridSubsystem LoadFromDataAsset failed: GridDataAsset is not set."));
-		return;
+		return false;
 	}
 
 	HexSize = GridDataAsset->HexSize;
@@ -78,6 +78,7 @@ void UHexGridSubsystem::LoadFromDataAsset(UHexGridDataAsset* InGridDataAsset)
 		GridData.Num(),
 		*GridDataAsset->GetName()
 	);
+	return true;
 }
 
 void UHexGridSubsystem::ImportFromGridMap(AHexGridMap* GridMap)

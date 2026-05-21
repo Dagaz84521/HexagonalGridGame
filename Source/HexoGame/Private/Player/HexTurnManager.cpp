@@ -1,18 +1,18 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Player/AHexTurnManager.h"
+#include "Player/HexTurnManager.h"
 
 #include "ASC/HexagonalAttributeSet.h"
 #include "Kismet/GameplayStatics.h"
 #include "Pawn/HexBattleUnit.h"
 
-AAHexTurnManager::AAHexTurnManager()
+AHexTurnManager::AHexTurnManager()
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void AAHexTurnManager::BeginPlay()
+void AHexTurnManager::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -22,7 +22,7 @@ void AAHexTurnManager::BeginPlay()
 	}
 }
 
-void AAHexTurnManager::RegisterUnit(AHexBattleUnit* Unit)
+void AHexTurnManager::RegisterUnit(AHexBattleUnit* Unit)
 {
 	if (!IsValid(Unit))
 	{
@@ -32,7 +32,7 @@ void AAHexTurnManager::RegisterUnit(AHexBattleUnit* Unit)
 	RegisteredUnitObjects.AddUnique(Unit);
 }
 
-void AAHexTurnManager::UnregisterUnit(AHexBattleUnit* Unit)
+void AHexTurnManager::UnregisterUnit(AHexBattleUnit* Unit)
 {
 	if (!Unit)
 	{
@@ -51,7 +51,7 @@ void AAHexTurnManager::UnregisterUnit(AHexBattleUnit* Unit)
 	BuildTurnQueue();
 }
 
-void AAHexTurnManager::ClearRegisteredUnits()
+void AHexTurnManager::ClearRegisteredUnits()
 {
 	RegisteredUnitObjects.Reset();
 	TurnQueue.Reset();
@@ -60,7 +60,7 @@ void AAHexTurnManager::ClearRegisteredUnits()
 	OnCurrentUnitChanged.Broadcast(nullptr);
 }
 
-void AAHexTurnManager::CollectUnitsInWorld()
+void AHexTurnManager::CollectUnitsInWorld()
 {
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(this, AHexBattleUnit::StaticClass(), FoundActors);
@@ -71,7 +71,7 @@ void AAHexTurnManager::CollectUnitsInWorld()
 	}
 }
 
-void AAHexTurnManager::BuildTurnQueue()
+void AHexTurnManager::BuildTurnQueue()
 {
 	TurnQueue.Reset();
 
@@ -108,7 +108,7 @@ void AAHexTurnManager::BuildTurnQueue()
 	});
 }
 
-void AAHexTurnManager::StartBattle()
+void AHexTurnManager::StartBattle()
 {
 	BuildTurnQueue();
 
@@ -124,7 +124,7 @@ void AAHexTurnManager::StartBattle()
 	BeginCurrentUnitTurn();
 }
 
-void AAHexTurnManager::BeginCurrentUnitTurn()
+void AHexTurnManager::BeginCurrentUnitTurn()
 {
 	if (!TurnQueue.IsValidIndex(CurrentTurnIndex))
 	{
@@ -143,7 +143,7 @@ void AAHexTurnManager::BeginCurrentUnitTurn()
 	OnCurrentUnitChanged.Broadcast(CurrentUnit);
 }
 
-void AAHexTurnManager::EndCurrentUnitTurn()
+void AHexTurnManager::EndCurrentUnitTurn()
 {
 	if (TurnQueue.Num() == 0)
 	{

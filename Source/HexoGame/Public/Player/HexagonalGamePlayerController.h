@@ -3,25 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Types/HexCoord.h"
 #include "GameFramework/PlayerController.h"
 #include "HexagonalGamePlayerController.generated.h"
 
-class ACameraPawn;
-struct FInputActionValue;
 class UInputAction;
+class ACameraPawn;
+class AHexBattleUnit;
 class UInputMappingContext;
-class AHexGridMap;
-class AHexGridGenerator;
-class AHexUnitBase;
-class UHexPathFinderComponent;
 
-UENUM(BlueprintType)
-enum class EHexagonalGameInputState : uint8
-{
-	Idle UMETA(DisplayName = "Idle"),
-	UnitSelected UMETA(DisplayName = "Unit Selected")
-};
 /**
  * 
  */
@@ -31,55 +20,35 @@ class HEXOGAME_API AHexagonalGamePlayerController : public APlayerController
 	GENERATED_BODY()
 public:
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
 	virtual void SetupInputComponent() override;
+	virtual void Tick(float DeltaTime) override;
+	void SimulateEnemyForTest();
+
+	UFUNCTION()
+	void OnCurrentUnitChanged(AHexBattleUnit* NewUnit);
+
+	UFUNCTION()
+	void HandleEdgeScroll(float DeltaTime);
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	UInputMappingContext* DefaultMappingContext;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	UInputAction* LeftClickAction;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	UInputAction* TestAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
-	UInputAction* FocusSelectedUnitAction;
+	UFUNCTION()
+	void TestCommandFunction();
 
-	UPROPERTY()
-	ACameraPawn* CameraPawn = nullptr;
-
-	void FocusCameraOnSelectedUnit();
-	void UpdateEdgeScroll(float DeltaSeconds);
 private:
-	void HandleLeftClick();
-	void HandleIdleClick(const FHexCoord& ClickedCoord);
-	void HandleUnitSelectedClick(const FHexCoord& ClickedCoord);
-	void EnterIdleState();
-	void EnterUnitSelectedState(AHexUnitBase* Unit);
-	void ClearPreviewPath();
-	void ShowPreviewPath(const FHexCoord& GoalCoord);
-	
+	// 在边缘滚动时，鼠标距离边缘的距离达到这个值时，滚动速度将达到最大。
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess = "true"))
+	float EdgeScrollMaxSpeedThreshold = 30.f;
+	// 在边缘滚动时，鼠标距离边缘的距离达到这个值时，开始滚动。
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess = "true"))
+	float EdgeScrollBeginThreshold = 70.f;
+	// 当鼠标距离边缘的距离小于 EdgeScrollMaxSpeedThreshold 时，滚动速度将达到这个值。
+	// 是否允许边缘滚动。
+	bool bAllowEdgeScroll = false;
 
-	UPROPERTY()
-	AHexGridGenerator* GridGenerator;
-
-	UPROPERTY()
-	AHexGridMap* Map;
-
-	UPROPERTY()
-	UHexPathFinderComponent* PathFinder = nullptr;
-
-	UPROPERTY()
-	AHexUnitBase* SelectedUnit = nullptr;
-
-	UPROPERTY(VisibleAnywhere, Category = "Hex|Input")
-	EHexagonalGameInputState InputState = EHexagonalGameInputState::Idle;
-
-	FHexCoord CurrentHoveredCoord;
-	bool bHasHoveredCoord = false;
-	TArray<FHexCoord> CurrentPath;
-
-public:
-	UPROPERTY(EditAnywhere, Category = "Camera")
-	float EdgeScrollMargin = 200.f;
-	UPROPERTY(EditAnywhere, Category = "Camera")
-	float EdgeScrollSpeed = 1600.f;
+	FTimerHandle EnemyTurnDelayForTestTimerHandle;
 };

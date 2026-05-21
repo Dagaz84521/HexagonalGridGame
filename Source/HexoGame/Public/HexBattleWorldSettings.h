@@ -21,6 +21,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hex|Grid")
 	TObjectPtr<UMaterialInterface> DecalMaterial;
 
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hex|Grid")
 	FVector DecalSize = FVector(100.0f, 100.0f, 100.0f);
 

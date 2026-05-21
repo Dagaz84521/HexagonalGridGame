@@ -28,6 +28,49 @@ ACameraPawn::ACameraPawn()
 	bFindCameraComponentWhenViewTarget = true;
 }
 
+void ACameraPawn::MoveByEdgeScrollInput(const FVector2D& ScreenInput, float ScrollStrength, float DeltaTime)
+{
+	if (ScreenInput.IsNearlyZero())
+	{
+		return;
+	}
+
+	FVector Forward = Camera->GetForwardVector();
+	Forward.Z = 0.f;
+	Forward.Normalize();
+
+	FVector Right = Camera->GetRightVector();
+	Right.Z = 0.f;
+	Right.Normalize();
+
+	FVector MoveDir =
+		Right * ScreenInput.X +
+		Forward * ScreenInput.Y;
+
+	if (MoveDir.IsNearlyZero())
+	{
+		return;
+	}
+
+	MoveDir.Normalize();
+
+	const float CurrentScrollSpeed =
+		FMath::Lerp(MinScrollSpeed, MaxScrollSpeed, ScrollStrength);
+
+	FVector NewLocation =
+		GetActorLocation() + MoveDir * CurrentScrollSpeed * DeltaTime;
+
+	NewLocation.X = FMath::Clamp(NewLocation.X, MinCameraBounds.X, MaxCameraBounds.X);
+	NewLocation.Y = FMath::Clamp(NewLocation.Y, MinCameraBounds.Y, MaxCameraBounds.Y);
+
+	SetActorLocation(NewLocation);
+}
+
+void ACameraPawn::SetFocusTarget(AActor* NewFocusTarget)
+{
+	FocusTarget = NewFocusTarget;
+}
+
 // Called when the game starts or when spawned
 void ACameraPawn::BeginPlay()
 {
@@ -35,11 +78,34 @@ void ACameraPawn::BeginPlay()
 	
 }
 
+void ACameraPawn::UpdateFocusFollow(float DeltaTime)
+{
+    if (!IsValid(FocusTarget))
+    {
+        return;
+    }
+
+    const FVector TargetLocation = FocusTarget->GetActorLocation();
+
+    FVector DesiredLocation = GetActorLocation();
+    DesiredLocation.X = TargetLocation.X;
+    DesiredLocation.Y = TargetLocation.Y;
+
+    const FVector NewLocation = FMath::VInterpTo(
+        GetActorLocation(),
+        DesiredLocation,
+        DeltaTime,
+        FollowInterpSpeed
+    );
+
+    SetActorLocation(NewLocation);
+}
+
 // Called every frame
 void ACameraPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	UpdateFocusFollow(DeltaTime);
 }
 
 
