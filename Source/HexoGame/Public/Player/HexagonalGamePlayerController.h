@@ -36,9 +36,30 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
 	UInputAction* TestAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	UInputAction* CameraZoomAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	UInputAction* CameraOrbitAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input)
+	UInputAction* CameraOrbitHoldAction;
+
 	UFUNCTION()
 	void TestCommandFunction();
 
+	UFUNCTION()
+	void StartCameraOrbit();
+
+	UFUNCTION()
+	void EndCameraOrbit();
+	
+	UFUNCTION()
+	void HandleCameraZoom(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void HandleCameraOrbit(const FInputActionValue& Value);
+	
 private:
 	// 在边缘滚动时，鼠标距离边缘的距离达到这个值时，滚动速度将达到最大。
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess = "true"))
@@ -49,6 +70,8 @@ private:
 	// 当鼠标距离边缘的距离小于 EdgeScrollMaxSpeedThreshold 时，滚动速度将达到这个值。
 	// 是否允许边缘滚动。
 	bool bAllowEdgeScroll = false;
+
+	bool bIsCameraOrbiting = false;
 
 	FTimerHandle EnemyTurnDelayForTestTimerHandle;
 };

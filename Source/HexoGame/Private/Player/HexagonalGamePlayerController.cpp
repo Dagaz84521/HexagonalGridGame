@@ -39,6 +39,11 @@ void AHexagonalGamePlayerController::SetupInputComponent()
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
 		EnhancedInputComponent->BindAction(TestAction, ETriggerEvent::Started, this, &AHexagonalGamePlayerController::TestCommandFunction);
+		EnhancedInputComponent->BindAction(CameraZoomAction, ETriggerEvent::Triggered, this, &AHexagonalGamePlayerController::HandleCameraZoom);
+		EnhancedInputComponent->BindAction(CameraOrbitHoldAction, ETriggerEvent::Started, this, &AHexagonalGamePlayerController::StartCameraOrbit);
+		EnhancedInputComponent->BindAction(CameraOrbitHoldAction, ETriggerEvent::Completed, this, &AHexagonalGamePlayerController::EndCameraOrbit);
+		EnhancedInputComponent->BindAction(CameraOrbitHoldAction, ETriggerEvent::Canceled, this, &AHexagonalGamePlayerController::EndCameraOrbit);
+		EnhancedInputComponent->BindAction(CameraOrbitAction, ETriggerEvent::Triggered, this, &AHexagonalGamePlayerController::HandleCameraOrbit);
 	}
 }
 
@@ -132,5 +137,40 @@ void AHexagonalGamePlayerController::TestCommandFunction()
 	if (UTurnManagerSubsystem* TurnManagerSubsystem = GetWorld()->GetSubsystem<UTurnManagerSubsystem>())
 	{
 		TurnManagerSubsystem->EndCurrentUnitTurn();
+	}
+}
+
+void AHexagonalGamePlayerController::StartCameraOrbit()
+{
+	bIsCameraOrbiting = true;
+	GEngine->AddOnScreenDebugMessage(3, 5.f, FColor::Blue, "Camera Orbit Started");
+}
+
+void AHexagonalGamePlayerController::EndCameraOrbit()
+{
+	bIsCameraOrbiting = false;
+	GEngine->AddOnScreenDebugMessage(3, 5.f, FColor::Blue, "Camera Orbit Ended");
+}
+
+void AHexagonalGamePlayerController::HandleCameraZoom(const FInputActionValue& Value)
+{
+	float v = Value.Get<float>();
+	ACameraPawn* CameraPawn = Cast<ACameraPawn>(GetPawn());
+	if (CameraPawn)
+	{
+		CameraPawn->AdjustDesiredArmLength(v);
+	}
+}
+
+void AHexagonalGamePlayerController::HandleCameraOrbit(const FInputActionValue& Value)
+{
+	if (bIsCameraOrbiting)
+	{
+		float v = Value.Get<float>();
+		ACameraPawn* CameraPawn = Cast<ACameraPawn>(GetPawn());
+		if (CameraPawn)
+		{
+			CameraPawn->AddOrbitYawInput(v);
+		}
 	}
 }

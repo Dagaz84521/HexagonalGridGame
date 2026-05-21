@@ -16,7 +16,7 @@ ACameraPawn::ACameraPawn()
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(RootComponent);
-	SpringArm->TargetArmLength = 1800.f;
+	SpringArm->TargetArmLength = 1500.f;
 	SpringArm->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
 	SpringArm->bDoCollisionTest = false;
 	SpringArm->bUsePawnControlRotation = false;
@@ -71,6 +71,36 @@ void ACameraPawn::SetFocusTarget(AActor* NewFocusTarget)
 	FocusTarget = NewFocusTarget;
 }
 
+void ACameraPawn::AdjustDesiredArmLength(float ZoomInput)
+{
+	const float ArmLengthDelta = -ZoomInput * 100.f; // 这里的100.f是一个缩放因子，可以根据需要调整。
+	DesiredArmLength = FMath::Clamp(
+		DesiredArmLength + ArmLengthDelta,
+		MinZoomDistance,
+		MaxZoomDistance
+	);
+}
+
+void ACameraPawn::UpdateArmLength(float DeltaTime)
+{
+	SpringArm->TargetArmLength = FMath::FInterpTo(
+		SpringArm->TargetArmLength,
+		DesiredArmLength,
+		DeltaTime,
+		ZoomInterpSpeed
+	);
+}
+
+void ACameraPawn::AddOrbitYawInput(float YawInput)
+{
+	if (FMath::IsNearlyZero(YawInput))
+	{
+		return;
+	}
+	const float YawDelta = YawInput * OrbitYawSpeed;
+	AddActorWorldRotation(FRotator(0.f, YawDelta, 0.f));
+}
+
 // Called when the game starts or when spawned
 void ACameraPawn::BeginPlay()
 {
@@ -106,6 +136,7 @@ void ACameraPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UpdateFocusFollow(DeltaTime);
+	UpdateArmLength(DeltaTime);
 }
 
 
