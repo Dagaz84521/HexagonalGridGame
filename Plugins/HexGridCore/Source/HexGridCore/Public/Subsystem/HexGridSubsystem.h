@@ -83,11 +83,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Hex|Pathfinding")
 	TArray<FHexCoord> FindPath(const FHexCoord& Start, const FHexCoord& Goal) const;
 
+	UFUNCTION(BlueprintCallable, Category = "Hex|Pathfinding")
+	TArray<FHexCoord> GetReachableCells(const FHexCoord& StartCoord, int32 MoveRange) const;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Hex|DataAsset")
 	TObjectPtr<UHexGridDataAsset> GridDataAsset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Hex|Visual")
 	TObjectPtr<UMaterialInterface> DecalMaterial;
+
+	UFUNCTION(BlueprintCallable, Category = "Hex|Visual")
+	void SetDecalVisible(const FHexCoord& Coord, bool bVisible);
+
+	UFUNCTION(BlueprintCallable, Category = "Hex|Visual")
+	void HideAllDecals();
+
 
 	FORCEINLINE void SetDecalMaterial(UMaterialInterface* InMaterial) { DecalMaterial = InMaterial; }
 
@@ -117,6 +127,9 @@ private:
 
 	UPROPERTY()
 	TMap<FHexCoord, UDecalComponent*> DecalsMap;
+
+	bool bHasHoveredCoord = false;
+	FHexCoord HoveredCoord;
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Hex|Visual")

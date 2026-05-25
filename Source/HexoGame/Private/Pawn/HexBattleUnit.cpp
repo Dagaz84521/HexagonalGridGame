@@ -64,6 +64,11 @@ void AHexBattleUnit::InitializeFromUnitDefinition(const UBattleUnitDefinition* U
 	}
 }
 
+int32 AHexBattleUnit::GetMoveRange() const
+{
+	return 4; // Placeholder value, replace with actual logic to determine move range based on attributes or unit definition
+}
+
 AHexBattleUnit::AHexBattleUnit()
 {
 	AbilitySystemComponent = CreateDefaultSubobject<UHexagonalAbilitySystemComponent>(TEXT("AbilitySystemComponent"));

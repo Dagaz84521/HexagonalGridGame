@@ -575,3 +575,81 @@ TArray<FHexCoord> UHexGridSubsystem::FindPath(const FHexCoord& Start, const FHex
 
 	return Path;
 }
+
+TArray<FHexCoord> UHexGridSubsystem::GetReachableCells(const FHexCoord& StartCoord, int32 MoveRange) const
+{
+	TArray<FHexCoord> ReachableCells;
+
+	FHexCellData StartCellData;
+	if (!GetCellData(StartCoord, StartCellData) || !StartCellData.bIsPassable)
+	{
+		return ReachableCells;
+	}
+
+	TQueue<TPair<FHexCoord, int32>> Frontier;
+	TSet<FHexCoord> Visited;
+
+	Frontier.Enqueue(TPair<FHexCoord, int32>(StartCoord, 0));
+	Visited.Add(StartCoord);
+
+	while (!Frontier.IsEmpty())
+	{
+		TPair<FHexCoord, int32> Current;
+		Frontier.Dequeue(Current);
+		FHexCoord CurrentCoord = Current.Key;
+		int32 CurrentDistance = Current.Value;
+
+		if (CurrentDistance > MoveRange)
+		{
+			continue;
+		}
+
+		if (CurrentDistance > 0)
+		{
+			ReachableCells.Add(CurrentCoord);
+		}
+
+		if (CurrentDistance >= MoveRange)
+		{
+			continue;
+		}
+
+		for (const FHexCoord& Neighbor : UHexMathLibrary::GetAllNeighbours(CurrentCoord))
+		{
+			if (Visited.Contains(Neighbor))
+			{
+				continue;
+			}
+
+			if (!CanMoveBetweenCells(CurrentCoord, Neighbor))
+			{
+				continue;
+			}
+
+			Visited.Add(Neighbor);
+			Frontier.Enqueue(TPair<FHexCoord, int32>(Neighbor, CurrentDistance + 1));
+		}
+	}
+
+	return ReachableCells;
+}
+
+void UHexGridSubsystem::SetDecalVisible(const FHexCoord& Coord, bool bVisible)
+{
+	UDecalComponent* const* Decal = DecalsMap.Find(Coord);
+	if (Decal && IsValid(*Decal))
+	{
+		(*Decal)->SetVisibility(bVisible);
+	}
+}
+
+void UHexGridSubsystem::HideAllDecals()
+{
+	for (UDecalComponent* Decal : SpawnedDecals)
+	{
+		if (IsValid(Decal))
+		{
+			Decal->SetVisibility(false);
+		}
+	}
+}

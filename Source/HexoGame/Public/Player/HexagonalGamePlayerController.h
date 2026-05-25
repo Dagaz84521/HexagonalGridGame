@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Types/HexCoord.h"
 #include "HexagonalGamePlayerController.generated.h"
 
 class UInputAction;
@@ -21,6 +22,7 @@ class HEXOGAME_API AHexagonalGamePlayerController : public APlayerController
 public:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	void UpdatePathPreview();
 	virtual void Tick(float DeltaTime) override;
 	void SimulateEnemyForTest();
 
@@ -59,7 +61,15 @@ public:
 
 	UFUNCTION()
 	void HandleCameraOrbit(const FInputActionValue& Value);
+
+	void UpdateHoveredCell();
 	
+	void ShowMovementRangeForUnit(AHexBattleUnit* NewUnit);
+	void ClearHoveredCell();
+	void ClearMovementRangePreview();
+	void ClearPathPreview();
+	void RestoreCellVisual(const FHexCoord& Coord);
+
 private:
 	// 在边缘滚动时，鼠标距离边缘的距离达到这个值时，滚动速度将达到最大。
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Camera, meta=(AllowPrivateAccess = "true"))
@@ -72,6 +82,21 @@ private:
 	bool bAllowEdgeScroll = false;
 
 	bool bIsCameraOrbiting = false;
+
+	bool bHoveredCell = false;
+
+	FHexCoord CurrentHoveredCell;
+
+	TArray<FHexCoord> CurrentPathPreview;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Hex|Preview", meta = (AllowPrivateAccess = "true"))
+	FLinearColor MovementRangeColor = FLinearColor(0.1f, 0.55f, 1.0f, 1.0f);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Hex|Preview", meta = (AllowPrivateAccess = "true"))
+	FLinearColor PathPreviewColor = FLinearColor(0.0f, 1.0f, 0.25f, 1.0f);
+
+	UPROPERTY()
+	TArray<FHexCoord> CurrentMovementRangeCells;
 
 	FTimerHandle EnemyTurnDelayForTestTimerHandle;
 };

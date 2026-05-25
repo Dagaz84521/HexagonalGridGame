@@ -7,6 +7,8 @@
 #include "EnhancedInputComponent.h"
 #include "InputAction.h"
 #include "Player/CameraPawn.h"
+#include "Subsystem/HexGridSubsystem.h"
+#include "Subsystem/PawnManagerSubsystem.h"
 #include "Subsystem/TurnManagerSubsystem.h"
 
 void AHexagonalGamePlayerController::BeginPlay()
@@ -47,10 +49,50 @@ void AHexagonalGamePlayerController::SetupInputComponent()
 	}
 }
 
+void AHexagonalGamePlayerController::UpdatePathPreview()
+{
+	if (!bHoveredCell || CurrentMovementRangeCells.Find(CurrentHoveredCell) == INDEX_NONE)
+	{
+		ClearPathPreview();
+		return;
+	}
+	UHexGridSubsystem* HexGridSubsystem = GetWorld()->GetSubsystem<UHexGridSubsystem>();
+	UTurnManagerSubsystem* TurnManagerSubsystem = GetWorld()->GetSubsystem<UTurnManagerSubsystem>();
+	if (!HexGridSubsystem || !TurnManagerSubsystem)	{
+		ClearPathPreview();
+		return;
+	}
+	AHexBattleUnit* CurrentUnit = TurnManagerSubsystem->GetCurrentUnit();
+	if (!IsValid(CurrentUnit))
+	{
+		ClearPathPreview();
+		return;
+	}
+
+	const TArray<FHexCoord> NewPathPreview = HexGridSubsystem->FindPath(CurrentUnit->GetCurrentHexCoord(), CurrentHoveredCell);
+	if (NewPathPreview == CurrentPathPreview)
+	{
+		return;
+	}
+
+	ClearPathPreview();
+	CurrentPathPreview = NewPathPreview;
+
+	for (const FHexCoord& Coord : CurrentPathPreview)
+	{
+		HexGridSubsystem->SetCellDecalColor(Coord, PathPreviewColor);
+		HexGridSubsystem->SetDecalVisible(Coord, true);
+	}
+
+	RestoreCellVisual(CurrentHoveredCell);
+}
+
 void AHexagonalGamePlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	HandleEdgeScroll(DeltaTime);
+	UpdateHoveredCell();
+	UpdatePathPreview();
 }
 
 void AHexagonalGamePlayerController::SimulateEnemyForTest()
@@ -63,12 +105,22 @@ void AHexagonalGamePlayerController::SimulateEnemyForTest()
 
 void AHexagonalGamePlayerController::OnCurrentUnitChanged(AHexBattleUnit* NewUnit)
 {
+	ClearHoveredCell();
+	ClearMovementRangePreview();
+
 	if (!IsValid(NewUnit))
+	{
 		return;
+	}
+
 	ACameraPawn* CameraPawn = Cast<ACameraPawn>(GetPawn());
-	if (!IsValid(CameraPawn))
-		return;
-	CameraPawn->SetFocusTarget(NewUnit);
+	if (IsValid(CameraPawn))
+	{
+		CameraPawn->SetFocusTarget(NewUnit);
+	}
+
+	ShowMovementRangeForUnit(NewUnit);
+
 	if (!NewUnit->IsPlayerControllable())
 	{
 		// 暂时还没做敌人AI，所以直接跳过敌人回合，后续会改成真正的AI逻辑。
@@ -173,4 +225,146 @@ void AHexagonalGamePlayerController::HandleCameraOrbit(const FInputActionValue& 
 			CameraPawn->AddOrbitYawInput(v);
 		}
 	}
+}
+
+void AHexagonalGamePlayerController::UpdateHoveredCell()
+{
+	UHexGridSubsystem* GridSubsystem = GetWorld()->GetSubsystem<UHexGridSubsystem>();
+	if (!GridSubsystem)
+	{
+		return;
+	}
+
+	FHitResult HitResult;
+	if (!GetHitResultUnderCursor(ECC_Visibility, false, HitResult))
+	{
+		ClearHoveredCell();
+		return;
+	}
+
+	FHexCoord NewHoveredCell;
+	if (!GridSubsystem->GetCellAtWorldLocation(HitResult.Location, NewHoveredCell))
+	{
+		ClearHoveredCell();
+		return;
+	}
+
+	if (bHoveredCell && CurrentHoveredCell == NewHoveredCell)
+	{
+		return;
+	}
+
+	ClearHoveredCell();
+
+	CurrentHoveredCell = NewHoveredCell;
+	bHoveredCell = true;
+	RestoreCellVisual(CurrentHoveredCell);
+}
+
+void AHexagonalGamePlayerController::ShowMovementRangeForUnit(AHexBattleUnit* NewUnit)
+{
+	if (!IsValid(NewUnit))
+	{
+		return;
+	}
+
+	UHexGridSubsystem* GridSubsystem = GetWorld()->GetSubsystem<UHexGridSubsystem>();
+	if (!GridSubsystem)
+	{
+		return;
+	}
+
+	const int32 MoveRange = NewUnit->GetMoveRange();
+	if (MoveRange <= 0)
+	{
+		return;
+	}
+
+	CurrentMovementRangeCells = GridSubsystem->GetReachableCells(NewUnit->GetCurrentHexCoord(), MoveRange);
+	for (const FHexCoord& Coord : CurrentMovementRangeCells)
+	{
+		GridSubsystem->SetCellDecalColor(Coord, MovementRangeColor);
+		GridSubsystem->SetDecalVisible(Coord, true);
+	}
+}
+
+void AHexagonalGamePlayerController::ClearHoveredCell()
+{
+	if (!bHoveredCell)
+	{
+		return;
+	}
+
+	const FHexCoord OldHoveredCell = CurrentHoveredCell;
+	bHoveredCell = false;
+	RestoreCellVisual(OldHoveredCell);
+}
+
+void AHexagonalGamePlayerController::ClearMovementRangePreview()
+{
+	ClearPathPreview();
+
+	UHexGridSubsystem* GridSubsystem = GetWorld() ? GetWorld()->GetSubsystem<UHexGridSubsystem>() : nullptr;
+	if (!GridSubsystem)
+	{
+		CurrentMovementRangeCells.Empty();
+		return;
+	}
+
+	for (const FHexCoord& Coord : CurrentMovementRangeCells)
+	{
+		GridSubsystem->SetDecalVisible(Coord, false);
+		GridSubsystem->ResetCellDecalColor(Coord);
+	}
+
+	CurrentMovementRangeCells.Empty();
+}
+
+void AHexagonalGamePlayerController::ClearPathPreview()
+{
+	if (CurrentPathPreview.IsEmpty())
+	{
+		return;
+	}
+
+	const TArray<FHexCoord> OldPathPreview = CurrentPathPreview;
+	CurrentPathPreview.Empty();
+
+	for (const FHexCoord& Coord : OldPathPreview)
+	{
+		RestoreCellVisual(Coord);
+	}
+}
+
+void AHexagonalGamePlayerController::RestoreCellVisual(const FHexCoord& Coord)
+{
+	UHexGridSubsystem* GridSubsystem = GetWorld() ? GetWorld()->GetSubsystem<UHexGridSubsystem>() : nullptr;
+	if (!GridSubsystem)
+	{
+		return;
+	}
+
+	if (bHoveredCell && CurrentHoveredCell == Coord)
+	{
+		GridSubsystem->SetCellDecalColor(Coord, FLinearColor::Yellow);
+		GridSubsystem->SetDecalVisible(Coord, true);
+		return;
+	}
+
+	if (CurrentPathPreview.Contains(Coord))
+	{
+		GridSubsystem->SetCellDecalColor(Coord, PathPreviewColor);
+		GridSubsystem->SetDecalVisible(Coord, true);
+		return;
+	}
+
+	if (CurrentMovementRangeCells.Contains(Coord))
+	{
+		GridSubsystem->SetCellDecalColor(Coord, MovementRangeColor);
+		GridSubsystem->SetDecalVisible(Coord, true);
+		return;
+	}
+
+	GridSubsystem->SetDecalVisible(Coord, false);
+	GridSubsystem->ResetCellDecalColor(Coord);
 }

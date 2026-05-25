@@ -15,6 +15,7 @@ AHexUnitBase::AHexUnitBase()
 	RootComponent = Root;
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	Mesh->SetupAttachment(Root);
+	Mesh->SetReceivesDecals(false);
 	
 }
 

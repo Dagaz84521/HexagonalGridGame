@@ -34,6 +34,8 @@ public:
 	TSubclassOf<UGameplayEffect> InitialAttributeEffect;
 
 	void InitializeFromUnitDefinition(const UBattleUnitDefinition* UnitDefinition);
+
+	int32 GetMoveRange() const;
 	
 private:
 	void EnsureAbilitySystemInitialized();

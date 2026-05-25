@@ -22,6 +22,7 @@ void AHexagonalGameMode::InitialSubsystem()
 			GridSubsystem->LoadFromDataAsset(BattleSettings->GridDataAsset);
 			GridSubsystem->SetDecalMaterial(BattleSettings->DecalMaterial);
 			GridSubsystem->BuildGridVisuals();
+			GridSubsystem->HideAllDecals();
 			bGridSubsystemReady = true;
 
 			if (UPawnManagerSubsystem* PawnManagerSubsystem = GetWorld()->GetSubsystem<UPawnManagerSubsystem>())
